@@ -1,0 +1,19 @@
+server {
+    listen 80;
+    server_name static-files;
+
+    fastcgi_hide_header X-Powered-By;
+    fastcgi_buffering off;
+
+    root /app;
+    index index.html;
+
+    access_log /dev/stdout;
+    error_log /dev/stdout info;
+
+    include mime.types;
+
+    location ~ /files/(.*) {
+        add_header Content-Disposition 'attachment; filename="${NODE_NAME}_$1"';
+    }
+}
